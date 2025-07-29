@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ArrowLeft, ArrowRight, Home, User, Users, Building, UserCheck } from "lucide-react"
 
 type Affiliation = "student" | "staff" | "staff-dependent" | "other" | null
-type Step = "affiliation" | "information" | "triage" | "confirmation"
+type Step = "affiliation" | "information" | "triage" | "confirmation" | "welcome"
 
 interface UserInfo {
   firstName: string
@@ -18,7 +18,8 @@ interface UserInfo {
 }
 
 export default function MedicalTriageKiosk() {
-  const [currentStep, setCurrentStep] = useState<Step>("affiliation")
+  //const [currentStep, setCurrentStep] = useState<Step>("affiliation")
+  const [currentStep, setCurrentStep] = useState<Step>("welcome")
   const [affiliation, setAffiliation] = useState<Affiliation>(null)
   const [userInfo, setUserInfo] = useState<UserInfo>({
     firstName: "",
@@ -50,27 +51,33 @@ export default function MedicalTriageKiosk() {
 
   const handleBack = () => {
     switch (currentStep) {
-      case "information":
+      /*case "information":
         setCurrentStep("affiliation")
-        break
+        break*/
       case "triage":
-        if (affiliation === "other") {
+        /*if (affiliation === "other") {
           setCurrentStep("affiliation")
         } else {
           setCurrentStep("information")
-        }
+        }*/
+       setCurrentStep("welcome")
         break
+
       case "confirmation":
+        setCurrentStep("triage")
+        break
+      default:
         setCurrentStep("triage")
         break
     }
   }
 
   const handleHome = () => {
-    setCurrentStep("affiliation")
+    /*setCurrentStep("affiliation")
     setAffiliation(null)
     setUserInfo({ firstName: "", lastName: "", idNumber: "", dateOfBirth: "" })
-    setReasonForVisit("")
+    setReasonForVisit("")*/
+    setCurrentStep("welcome")
   }
 
   const getAffiliationLabel = () => {
@@ -241,16 +248,42 @@ export default function MedicalTriageKiosk() {
           </Card>
         )}
 
+        {/*new home page */}
+        {currentStep === "welcome" && (
+          <Card className="w-full">
+            <CardHeader className="text-center pb-8">
+              <CardTitle className="text-3xl font-bold text-gray-900">Hi! Have you consulted the front desk?</CardTitle>
+            </CardHeader>
+
+            <div className="FrntDskCnfrm">
+                <Button
+                  onClick={/*function name*/() => ("")}
+                  className="confirmationBTN"
+                >
+                  No
+                </Button>
+
+                <Button
+                  onClick={() => ("")}
+                  className="confirmationBTN"
+                >
+                  Yes
+                </Button>
+              </div>
+
+          </Card>
+        )}
+
         {/* Reason for Visit (Triage) */}
         {currentStep === "triage" && (
           <Card className="w-full">
             <CardHeader className="text-center pb-8">
               <CardTitle className="text-3xl font-bold text-gray-900">What is the reason for your visit?</CardTitle>
-              {affiliation !== "other" && (
+              {/*affiliation !== "other" && (
                 <p className="text-lg text-gray-600 mt-2">
                   Welcome, {userInfo.firstName} {userInfo.lastName} ({getAffiliationLabel()})
                 </p>
-              )}
+              )*/}
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-6">

@@ -134,7 +134,8 @@ const triageOptions = [
 ]
 
 function MedicalTriageKiosk() {
-  const [currentStep, setCurrentStep] = useState("affiliation")
+  //const [currentStep, setCurrentStep] = useState("affiliation")
+  const [currentStep, setCurrentStep] = useState("triage")
   const [affiliation, setAffiliation] = useState(null)
   const [userInfo, setUserInfo] = useState({
     firstName: "",
@@ -180,7 +181,7 @@ function MedicalTriageKiosk() {
 
   const handleBack = () => {
     switch (currentStep) {
-      case "information":
+      /*case "information":
         setCurrentStep("affiliation")
         break
       case "triage":
@@ -189,10 +190,13 @@ function MedicalTriageKiosk() {
         } else {
           setCurrentStep("information")
         }
-        break
+        break*/
       case "confirmation":
         setCurrentStep("triage")
-        break
+        break;
+      default:
+        setCurrentStep("triage")
+        break;
     }
   }
 
@@ -234,7 +238,7 @@ function MedicalTriageKiosk() {
         </header>
 
         {/* Affiliation Selection Screen */}
-        {currentStep === "affiliation" && (
+        {/*currentStep === "affiliation" && (
           <div className="kiosk-card">
             <div className="card-header">
               <h2 className="card-title">Please select your affiliation</h2>
@@ -278,10 +282,10 @@ function MedicalTriageKiosk() {
               </div>
             </div>
           </div>
-        )}
+        )*/}
 
         {/* Information Form */}
-        {currentStep === "information" && (
+        {/*currentStep === "information" && (
           <div className="kiosk-card">
             <div className="card-header">
               <h2 className="card-title">Please provide your information</h2>
@@ -361,7 +365,7 @@ function MedicalTriageKiosk() {
               </div>
             </div>
           </div>
-        )}
+        )*/}
 
         {/* Reason for Visit (Triage) with Accordion */}
         {currentStep === "triage" && (
