@@ -59,7 +59,8 @@ export default function MedicalTriageKiosk() {
 
   const handleReasonSelect = (reason: string) => {
     setReasonForVisit(reason)
-    setCurrentStep("confirmation")
+    //setCurrentStep("confirmation")
+    setCurrentStep("info")
   }
 
   const handleBack = () => {
@@ -313,7 +314,7 @@ export default function MedicalTriageKiosk() {
                 </Button>
 
                 <Button
-                  onClick={() => handleReasonSelect("medicine")/*change to match text */}
+                  onClick={() => handleReasonSelect("nurse")/*change to match text */}
                   className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
                 >
                   <div className="text-left">
@@ -405,7 +406,19 @@ export default function MedicalTriageKiosk() {
               <CardTitle className="text-3xl font-bold text-gray-900">Your selection includes:</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              {reasonForVisit === "" && ()}
+              {reasonForVisit === "appointment" && (
+                <p>info listing</p>
+              )}
+              <div className="flex justify-start pt-8">
+                <Button
+                  onClick={handleBack}
+                  variant="outline"
+                  className="h-14 px-8 text-lg border-2 border-gray-300 hover:bg-gray-50 bg-transparent"
+                >
+                  <ArrowLeft className="h-5 w-5 mr-2" />
+                  Back
+                </Button>
+              </div>
             </CardContent>
           </Card>
         )}
