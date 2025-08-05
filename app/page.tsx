@@ -399,7 +399,7 @@ export default function MedicalTriageKiosk() {
         )}
 
         {/* Selection Information Screen */}
-        {/*currentStep === "info" &&(
+        {currentStep === "info" &&(
           <Card className="w-full">
             <CardHeader className="text-center pb-8">
               {reasonForVisit === "" && (
@@ -422,7 +422,7 @@ export default function MedicalTriageKiosk() {
               
             </CardContent>
           </Card>
-        )*/}
+        )}
 
         {/* Confirmation Screen */}
         {currentStep === "confirmation" && (
