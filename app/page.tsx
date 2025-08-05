@@ -402,24 +402,10 @@ export default function MedicalTriageKiosk() {
         {currentStep === "info" &&(
           <Card className="w-full">
             <CardHeader className="text-center pb-8">
-              {reasonForVisit === "" && (
-                <CardTitle className="text-3xl font-bold text-gray-900">Please see Information Desk.</CardTitle>
-              )}
-              { && (
-                <CardTitle className="text-3xl font-bold text-gray-900">Please go to Appointments Desk</CardTitle>
-                
-              )}
-              { (
-                <CardTitle className="text-3xl font-bold text-gray-900">Please go to the Nurse's Station</CardTitle>
-                
-              )}
-              { (
-                <CardTitle className="text-3xl font-bold text-gray-900">Please go to ________</CardTitle>
-                
-              )}
+              <CardTitle className="text-3xl font-bold text-gray-900">Your selection includes:</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              
+              {reasonForVisit === "" && ()}
             </CardContent>
           </Card>
         )}
