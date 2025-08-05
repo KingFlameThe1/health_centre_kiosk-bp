@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ArrowLeft, ArrowRight, Home, User, Users, Building, UserCheck } from "lucide-react"
 
 type Affiliation = "student" | "staff" | "staff-dependent" | "other" | null
-type Step = "affiliation" | "information" | "triage" | "confirmation" | "welcome"
+type Step = "affiliation" | "information" | "triage" | "confirmation" | "welcome" | "direct" | "info"
 
 interface UserInfo {
   firstName: string
@@ -16,6 +16,8 @@ interface UserInfo {
   idNumber: string
   dateOfBirth: string
 }
+
+var directMsg = 0 /*determines which message is displayed on "direct" screen*/
 
 export default function MedicalTriageKiosk() {
   //const [currentStep, setCurrentStep] = useState<Step>("affiliation")
@@ -40,6 +42,17 @@ export default function MedicalTriageKiosk() {
 
   const handleInformationSubmit = () => {
     if (userInfo.firstName && userInfo.lastName && userInfo.idNumber && userInfo.dateOfBirth) {
+      setCurrentStep("triage")
+    }
+  }
+
+  const seenFrntDsk = (resp: string) =>{
+    if (resp === "no"){
+      /*sends user to page where they are direct on where to go */
+      setCurrentStep("direct")
+      directMsg = 1
+    }
+    else{
       setCurrentStep("triage")
     }
   }
@@ -257,14 +270,14 @@ export default function MedicalTriageKiosk() {
 
             <div className="FrntDskCnfrm">
                 <Button
-                  onClick={/*function name*/() => ("")}
+                  onClick={() => seenFrntDsk("no")}
                   className="confirmationBTN"
                 >
                   No
                 </Button>
 
                 <Button
-                  onClick={() => ("")}
+                  onClick={() => seenFrntDsk("yes")}
                   className="confirmationBTN"
                 >
                   Yes
@@ -300,11 +313,11 @@ export default function MedicalTriageKiosk() {
                 </Button>
 
                 <Button
-                  onClick={() => handleReasonSelect("medicine")}
+                  onClick={() => handleReasonSelect("medicine")/*change to match text */}
                   className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
                 >
                   <div className="text-left">
-                    <div>Get Medicine</div>
+                    <div>See a nurse</div>
                     <div className="text-sm font-normal opacity-90">
                       For prescriptions, refills, and pharmaceutical needs
                     </div>
@@ -316,9 +329,21 @@ export default function MedicalTriageKiosk() {
                   className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
                 >
                   <div className="text-left">
-                    <div>See a Doctor or Nurse</div>
+                    <div>Urgent Care</div>
                     <div className="text-sm font-normal opacity-90">
                       For emergency, urgent care, or immediate medical attention
+                    </div>
+                  </div>
+                </Button>
+
+                <Button
+                  onClick={() => handleReasonSelect("other")}
+                  className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
+                >
+                  <div className="text-left">
+                    <div>Other Service</div>
+                    <div className="text-sm font-normal opacity-90">
+                      . . .
                     </div>
                   </div>
                 </Button>
@@ -337,6 +362,67 @@ export default function MedicalTriageKiosk() {
             </CardContent>
           </Card>
         )}
+
+        {/* Direction screen*/}
+        {currentStep === "direct" &&(
+          <Card className="w-full">
+            <CardHeader className="text-center pb-8">
+              {directMsg === 1 && (
+                <CardTitle className="text-3xl font-bold text-gray-900">Please see Information Desk.</CardTitle>
+              )}
+              {directMsg === 2 && (
+                <CardTitle className="text-3xl font-bold text-gray-900">Please go to Appointments Desk</CardTitle>
+                
+              )}
+              {directMsg === 3 && (
+                <CardTitle className="text-3xl font-bold text-gray-900">Please go to the Nurse's Station</CardTitle>
+                
+              )}
+              {directMsg === 3 && (
+                <CardTitle className="text-3xl font-bold text-gray-900">Please go to ________</CardTitle>
+                
+              )}
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="flex justify-start pt-8">
+                <Button
+                  onClick={handleHome}
+                  variant="outline"
+                  className="h-14 px-8 text-lg border-2 border-gray-300 hover:bg-gray-50 bg-transparent"
+                >
+                  <ArrowLeft className="h-5 w-5 mr-2" />
+                  Home
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Selection Information Screen */}
+        {/*currentStep === "info" &&(
+          <Card className="w-full">
+            <CardHeader className="text-center pb-8">
+              {reasonForVisit === "" && (
+                <CardTitle className="text-3xl font-bold text-gray-900">Please see Information Desk.</CardTitle>
+              )}
+              { && (
+                <CardTitle className="text-3xl font-bold text-gray-900">Please go to Appointments Desk</CardTitle>
+                
+              )}
+              { (
+                <CardTitle className="text-3xl font-bold text-gray-900">Please go to the Nurse's Station</CardTitle>
+                
+              )}
+              { (
+                <CardTitle className="text-3xl font-bold text-gray-900">Please go to ________</CardTitle>
+                
+              )}
+            </CardHeader>
+            <CardContent className="space-y-6">
+              
+            </CardContent>
+          </Card>
+        )*/}
 
         {/* Confirmation Screen */}
         {currentStep === "confirmation" && (
