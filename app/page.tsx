@@ -406,9 +406,57 @@ export default function MedicalTriageKiosk() {
               <CardTitle className="text-3xl font-bold text-gray-900">Your selection includes:</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
+
+              {/*Appointments info card */}
               {reasonForVisit === "appointment" && (
-                <p>info listing</p>
+                <ul>
+                  <li>Medicals</li>
+                  <li>Physicals/ Check-ups</li>
+                  <li>Missed appointments</li>
+                  <li>Pap Smears</li>
+                  <li>I have an appointment today</li>
+                </ul>
               )}
+
+              {/*Nursing info card */}
+              {reasonForVisit === "nurse" && (
+                <ul>
+                  <li>Contaceptive services</li>
+                  <li>STI counselling</li>
+                  <li>Pregnancy Testing</li>
+                  <li>Blood Pressure/Glucose/A1c/Weight/etc.</li>
+                  <li>Dressings/Bandaging</li>
+                </ul>
+              )}
+
+              {reasonForVisit === "urgent-care" && (
+                
+                <ol>
+                  <h3>Urgent Complaints Only</h3>
+                  <h3>Waiting time may be long</h3>
+                  <li>Get a number from the Information desk</li>
+                  <li>Present it to the Front Desk</li>
+                  <li>Choose a service code to present to billing. (confidential)</li>
+                </ol>
+                
+              )}
+
+              {reasonForVisit === "other" && (
+                
+                <dl>
+                  <dt>Medicaton refills</dt>
+                  <dt>Over the counter  meds</dt>
+                  <dd>no prescription needed</dd>
+                  <dt>Medical Supplies</dt>
+                  <dd> bandages, etc.</dd>
+                  <dt>Medication Advice</dt>
+                  <dt>NHF csrd advice</dt>
+                  <dt>Vacinations</dt>
+                  <dt>Tests:STI, Blood type, etc.</dt>
+                </dl>
+                
+              )}
+
               <div className="flex justify-start pt-8">
                 <Button
                   onClick={handleBack}
@@ -421,6 +469,7 @@ export default function MedicalTriageKiosk() {
               </div>
             </CardContent>
           </Card>
+          
         )}
 
         {/* Confirmation Screen */}
