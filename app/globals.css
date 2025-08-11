@@ -92,3 +92,63 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom styles for welcome and direct steps to match app design */
+.FrntDskCnfrm {
+  @apply flex flex-col md:flex-row gap-6 justify-center items-center pt-8;
+}
+
+.confirmationBTN {
+  @apply h-24 w-full md:w-80 bg-red-600 hover:bg-red-700 text-white text-2xl font-semibold rounded-lg shadow-lg transition-all duration-200 hover:shadow-xl hover:-translate-y-1;
+}
+
+.confirmationBTN:hover {
+  @apply bg-red-700 shadow-xl;
+  transform: translateY(-2px);
+}
+
+.confirmationBTN:active {
+  @apply bg-red-800;
+  transform: translateY(0);
+}
+
+/* Enhanced direction step styling for consistency */
+.direction-step .card-content {
+  @apply space-y-8;
+}
+
+.direction-step .home-button {
+  @apply h-16 px-8 text-lg font-semibold border-2 border-red-600 text-red-600 hover:bg-red-50 hover:border-red-700 hover:text-red-700 transition-all duration-200 rounded-lg shadow-md hover:shadow-lg;
+}
+
+/* Improved card styling for welcome and direct steps */
+.welcome-card,
+.direct-card {
+  @apply shadow-xl border-0 bg-white rounded-2xl;
+}
+
+.welcome-card .card-header,
+.direct-card .card-header {
+  @apply pb-12;
+}
+
+.welcome-card .card-title,
+.direct-card .card-title {
+  @apply text-4xl font-bold text-gray-900 leading-tight;
+}
+
+/* Added responsive text sizing for better mobile experience */
+@media (max-width: 768px) {
+  .confirmationBTN {
+    @apply text-xl h-20;
+  }
+
+  .welcome-card .card-title,
+  .direct-card .card-title {
+    @apply text-3xl;
+  }
+
+  .direction-step .home-button {
+    @apply h-14 text-base;
+  }
+}
