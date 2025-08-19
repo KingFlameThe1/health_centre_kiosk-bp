@@ -454,7 +454,7 @@ export default function MedicalTriageKiosk() {
               {reasonForVisit === "other" && (
                 <div className="space-y-6">
                   <Button
-                    onClick={() => handleFinalSelect("prescription")/* change handle function */}
+                    onClick={() => handleFinalSelect("Prescription Re-write")/* change handle function */}
                     className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
                   >
                     <div className="text-left">
@@ -466,7 +466,7 @@ export default function MedicalTriageKiosk() {
                   </Button>
                 
                   <Button
-                    onClick={() => handleFinalSelect("meds")/* change handle function */}
+                    onClick={() => handleFinalSelect("Over the Counter Medication")/* change handle function */}
                     className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
                   >
                     <div className="text-left">
@@ -478,7 +478,7 @@ export default function MedicalTriageKiosk() {
                   </Button>
                 
                   <Button
-                    onClick={() => handleFinalSelect("medSupplies")/* change handle function */}
+                    onClick={() => handleFinalSelect("Medical Supplies")/* change handle function */}
                     className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
                   >
                     <div className="text-left">
@@ -490,7 +490,7 @@ export default function MedicalTriageKiosk() {
                   </Button>
                 
                   <Button
-                    onClick={() => handleFinalSelect("medAdvice")/* change handle function */}
+                    onClick={() => handleFinalSelect("Medication Advice")/* change handle function */}
                     className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
                   >
                     <div className="text-left">
@@ -502,7 +502,7 @@ export default function MedicalTriageKiosk() {
                   </Button>
                 
                   <Button
-                    onClick={() => handleFinalSelect("cardAdvice")/* change handle function */}
+                    onClick={() => handleFinalSelect("NHF Card Advice")/* change handle function */}
                     className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
                   >
                     <div className="text-left">
@@ -514,7 +514,7 @@ export default function MedicalTriageKiosk() {
                   </Button>
 
                   <Button
-                    onClick={() => handleFinalSelect("vaccine")/* change handle function */}
+                    onClick={() => handleFinalSelect("Vaccination")/* change handle function */}
                     className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
                   >
                     <div className="text-left">
@@ -526,7 +526,7 @@ export default function MedicalTriageKiosk() {
                   </Button>
 
                   <Button
-                    onClick={() => handleFinalSelect("lab")/* change handle function */}
+                    onClick={() => handleFinalSelect("Lab Tests")/* change handle function */}
                     className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
                   >
                     <div className="text-left">
@@ -538,7 +538,7 @@ export default function MedicalTriageKiosk() {
                   </Button>
 
                   <Button
-                    onClick={() => handleFinalSelect("exemption")/* change handle function */}
+                    onClick={() => handleFinalSelect("Medical Exemption")/* change handle function */}
                     className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
                   >
                     <div className="text-left">
@@ -616,7 +616,7 @@ export default function MedicalTriageKiosk() {
                     {reasonForVisit === "appointment" && "Make an Appointment"}
                     {reasonForVisit === "medicine" && "Get Medicine"}
                     {reasonForVisit === "urgent-care" && "See a Doctor or Nurse"}
-                    {/*reasonForVisit === reasonForVisit && reasonForVisit*/}
+                    {!["appointment", "medicine", "urgent-care"].includes(reasonForVisit) && reasonForVisit}
                   </span>
                 </div>
               </div>
