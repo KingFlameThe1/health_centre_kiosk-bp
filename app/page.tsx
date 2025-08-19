@@ -46,13 +46,12 @@ export default function MedicalTriageKiosk() {
     }
   }
 
-  const seenFrntDsk = (resp: string) =>{
-    if (resp === "no"){
+  const seenFrntDsk = (resp: string) => {
+    if (resp === "no") {
       /*sends user to page where they are direct on where to go */
       setCurrentStep("direct")
       directMsg = 1
-    }
-    else{
+    } else {
       setCurrentStep("triage")
     }
   }
@@ -75,7 +74,7 @@ export default function MedicalTriageKiosk() {
         } else {
           setCurrentStep("information")
         }*/
-       setCurrentStep("welcome")
+        setCurrentStep("welcome")
         break
 
       case "confirmation":
@@ -110,11 +109,11 @@ export default function MedicalTriageKiosk() {
     }
   }
 
-  const handleFinalSelect = (reason : string) =>{
+  const handleFinalSelect = (reason: string) => {
     setReasonForVisit(reason)
     setCurrentStep("confirmation")
   }
-  
+
   const handleContinue = () => {
     setCurrentStep("confirmation")
   }
@@ -280,21 +279,14 @@ export default function MedicalTriageKiosk() {
             </CardHeader>
 
             <div className="FrntDskCnfrm">
-                <Button
-                  onClick={() => seenFrntDsk("no")}
-                  className="confirmationBTN"
-                >
-                  No
-                </Button>
+              <Button onClick={() => seenFrntDsk("no")} className="confirmationBTN">
+                No
+              </Button>
 
-                <Button
-                  onClick={() => seenFrntDsk("yes")}
-                  className="confirmationBTN"
-                >
-                  Yes
-                </Button>
-              </div>
-
+              <Button onClick={() => seenFrntDsk("yes")} className="confirmationBTN">
+                Yes
+              </Button>
+            </div>
           </Card>
         )}
 
@@ -324,7 +316,7 @@ export default function MedicalTriageKiosk() {
                 </Button>
 
                 <Button
-                  onClick={() => handleReasonSelect("nurse")/*change to match text */}
+                  onClick={() => handleReasonSelect("nurse") /*change to match text */}
                   className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
                 >
                   <div className="text-left">
@@ -353,9 +345,7 @@ export default function MedicalTriageKiosk() {
                 >
                   <div className="text-left">
                     <div>Other Service</div>
-                    <div className="text-sm font-normal opacity-90">
-                      . . .
-                    </div>
+                    <div className="text-sm font-normal opacity-90">. . .</div>
                   </div>
                 </Button>
               </div>
@@ -375,7 +365,7 @@ export default function MedicalTriageKiosk() {
         )}
 
         {/* Direction screen*/}
-        {currentStep === "direct" &&(
+        {currentStep === "direct" && (
           <Card className="w-full">
             <CardHeader className="text-center pb-8">
               {directMsg === 1 && (
@@ -383,15 +373,12 @@ export default function MedicalTriageKiosk() {
               )}
               {directMsg === 2 && (
                 <CardTitle className="text-3xl font-bold text-gray-900">Please go to Appointments Desk</CardTitle>
-                
               )}
               {directMsg === 3 && (
                 <CardTitle className="text-3xl font-bold text-gray-900">Please go to the Nurse's Station</CardTitle>
-                
               )}
               {directMsg === 3 && (
                 <CardTitle className="text-3xl font-bold text-gray-900">Please go to ________</CardTitle>
-                
               )}
             </CardHeader>
             <CardContent className="space-y-6">
@@ -410,16 +397,15 @@ export default function MedicalTriageKiosk() {
         )}
 
         {/* Selection Information Screen */}
-        {currentStep === "info" &&(
+        {currentStep === "info" && (
           <Card className="w-full">
             <CardHeader className="text-center pb-8">
               <CardTitle className="text-3xl font-bold text-gray-900">Your selection includes:</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-
               {/*Appointments info card */}
               {reasonForVisit === "appointment" && (
-                <ul>
+                <ul className="info-list">
                   <li>Medicals</li>
                   <li>Physicals/ Check-ups</li>
                   <li>Missed appointments</li>
@@ -429,8 +415,8 @@ export default function MedicalTriageKiosk() {
 
               {/*Nursing info card */}
               {reasonForVisit === "nurse" && (
-                <ul>
-                  <li>Contaceptive services</li>
+                <ul className="info-list">
+                  <li>Contraceptive services</li>
                   <li>STI counselling / rapid tests</li>
                   <li>Pregnancy Testing</li>
                   <li>Blood Pressure/Glucose/A1c/Weight/etc.</li>
@@ -440,116 +426,99 @@ export default function MedicalTriageKiosk() {
               )}
 
               {reasonForVisit === "urgent-care" && (
-                
-                <ol>
+                <div className="info-list">
                   <h3>Urgent Cases Only</h3>
                   <h3>Waiting time(s) may vary</h3>
-                  <li id="urgCareDisc">IF SITUATION IS NOT URGENT YOU WILL BE SENT BACK TO FRONT DESK</li>
-                  <li>Please Note: emergency cases will be prioritized</li>
-                  <li>Doctor seen will be based on availability</li>
-                </ol>
-                
+                  <ol>
+                    <li id="urgCareDisc">IF SITUATION IS NOT URGENT YOU WILL BE SENT BACK TO FRONT DESK</li>
+                    <li>Please Note: emergency cases will be prioritized</li>
+                    <li>Doctor seen will be based on availability</li>
+                  </ol>
+                </div>
               )}
 
               {reasonForVisit === "other" && (
                 <div className="space-y-6">
                   <Button
-                    onClick={() => handleFinalSelect("Prescription Re-write")/* change handle function */}
+                    onClick={() => handleFinalSelect("Prescription Re-write") /* change handle function */}
                     className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
                   >
                     <div className="text-left">
                       <div>Prescription re-write / renew</div>
-                      <div className="text-sm font-normal opacity-90">
-                        
-                      </div>
+                      <div className="text-sm font-normal opacity-90"></div>
                     </div>
                   </Button>
-                
+
                   <Button
-                    onClick={() => handleFinalSelect("Over the Counter Medication")/* change handle function */}
+                    onClick={() => handleFinalSelect("Over the Counter Medication") /* change handle function */}
                     className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
                   >
                     <div className="text-left">
                       <div>Over the counter medications</div>
-                      <div className="text-sm font-normal opacity-90">
-                        no prescription needed
-                      </div>
+                      <div className="text-sm font-normal opacity-90">no prescription needed</div>
                     </div>
                   </Button>
-                
+
                   <Button
-                    onClick={() => handleFinalSelect("Medical Supplies")/* change handle function */}
+                    onClick={() => handleFinalSelect("Medical Supplies") /* change handle function */}
                     className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
                   >
                     <div className="text-left">
                       <div>Medical Supplies</div>
-                      <div className="text-sm font-normal opacity-90">
-                        bandages, etc.
-                      </div>
+                      <div className="text-sm font-normal opacity-90">bandages, etc.</div>
                     </div>
                   </Button>
-                
+
                   <Button
-                    onClick={() => handleFinalSelect("Medication Advice")/* change handle function */}
+                    onClick={() => handleFinalSelect("Medication Advice") /* change handle function */}
                     className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
                   >
                     <div className="text-left">
                       <div>Medication Advice</div>
-                      <div className="text-sm font-normal opacity-90">
-                        
-                      </div>
+                      <div className="text-sm font-normal opacity-90"></div>
                     </div>
                   </Button>
-                
+
                   <Button
-                    onClick={() => handleFinalSelect("NHF Card Advice")/* change handle function */}
+                    onClick={() => handleFinalSelect("NHF Card Advice") /* change handle function */}
                     className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
                   >
                     <div className="text-left">
                       <div>NHF Card Advice</div>
-                      <div className="text-sm font-normal opacity-90">
-                        
-                      </div>
+                      <div className="text-sm font-normal opacity-90"></div>
                     </div>
                   </Button>
 
                   <Button
-                    onClick={() => handleFinalSelect("Vaccination")/* change handle function */}
+                    onClick={() => handleFinalSelect("Vaccination") /* change handle function */}
                     className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
                   >
                     <div className="text-left">
                       <div>Vaccinations</div>
-                      <div className="text-sm font-normal opacity-90">
-                        
-                      </div>
+                      <div className="text-sm font-normal opacity-90"></div>
                     </div>
                   </Button>
 
                   <Button
-                    onClick={() => handleFinalSelect("Lab Tests")/* change handle function */}
+                    onClick={() => handleFinalSelect("Lab Tests") /* change handle function */}
                     className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
                   >
                     <div className="text-left">
                       <div>Lab Tests</div>
-                      <div className="text-sm font-normal opacity-90">
-                        STI screens, executive profiles and others
-                      </div>
+                      <div className="text-sm font-normal opacity-90">STI screens, executive profiles and others</div>
                     </div>
                   </Button>
 
                   <Button
-                    onClick={() => handleFinalSelect("Medical Exemption")/* change handle function */}
+                    onClick={() => handleFinalSelect("Medical Exemption") /* change handle function */}
                     className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
                   >
                     <div className="text-left">
                       <div>medical exemptions/ sick leave</div>
-                      <div className="text-sm font-normal opacity-90">
-                        
-                      </div>
+                      <div className="text-sm font-normal opacity-90"></div>
                     </div>
                   </Button>
                 </div>
-              
               )}
 
               <div className="flex justify-start pt-8">
@@ -563,19 +532,14 @@ export default function MedicalTriageKiosk() {
                 </Button>
 
                 {reasonForVisit !== "other" && (
-                  <Button
-                    onClick={handleContinue}
-                    variant="outline"
-                    className="h-14 px-8 text-lg border-2 border-gray-300 hover:bg-gray-50 bg-transparent"
-                  >
-                    <ArrowRight className="h-5 w-5 mr-2" />
+                  <Button onClick={handleContinue} className="info-continue-btn">
                     Continue
+                    <ArrowRight className="h-5 w-5 ml-2" />
                   </Button>
                 )}
               </div>
             </CardContent>
           </Card>
-          
         )}
 
         {/* Confirmation Screen */}

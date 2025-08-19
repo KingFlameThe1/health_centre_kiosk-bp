@@ -137,6 +137,57 @@ body {
   @apply text-4xl font-bold text-gray-900 leading-tight;
 }
 
+/* Added styling for info step lists and buttons */
+.info-list {
+  @apply bg-gray-50 p-6 rounded-lg space-y-3;
+}
+
+.info-list li {
+  @apply text-lg text-gray-800 flex items-start;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.info-list li::before {
+  content: "•";
+  color: #dc2626;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.info-list h3 {
+  @apply text-xl font-bold text-red-600 mb-4;
+}
+
+.info-list ol {
+  @apply space-y-2 mt-4;
+}
+
+.info-list ol li {
+  @apply text-base;
+  counter-increment: list-counter;
+}
+
+.info-list ol li::before {
+  content: counter(list-counter) ".";
+  color: #dc2626;
+  font-weight: bold;
+}
+
+.info-list ol {
+  counter-reset: list-counter;
+}
+
+#urgCareDisc {
+  @apply font-bold text-red-700 bg-red-50 p-3 rounded border-l-4 border-red-500;
+}
+
+.info-continue-btn {
+  @apply h-14 px-8 bg-red-600 hover:bg-red-700 text-white text-lg font-semibold ml-4 rounded-lg shadow-lg transition-all duration-200 hover:shadow-xl;
+}
+
 /* Added responsive text sizing for better mobile experience */
 @media (max-width: 768px) {
   .confirmationBTN {
@@ -150,5 +201,22 @@ body {
 
   .direction-step .home-button {
     @apply h-14 text-base;
+  }
+
+  /* Added mobile responsive styles for info step */
+  .info-list {
+    @apply p-4;
+  }
+
+  .info-list li {
+    @apply text-base;
+  }
+
+  .info-list h3 {
+    @apply text-lg;
+  }
+
+  .info-continue-btn {
+    @apply h-12 px-6 text-base ml-0 mt-4 w-full;
   }
 }
