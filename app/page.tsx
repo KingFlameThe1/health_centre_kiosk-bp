@@ -59,6 +59,7 @@ export default function MedicalTriageKiosk() {
 
   const handleReasonSelect = (reason: string) => {
     setReasonForVisit(reason)
+    setAffiliation("other")
     //setCurrentStep("confirmation")
     setCurrentStep("info")
   }
@@ -107,6 +108,15 @@ export default function MedicalTriageKiosk() {
       default:
         return ""
     }
+  }
+
+  const handleFinalSelect = (reason : string) =>{
+    setReasonForVisit(reason)
+    setCurrentStep("confirmation")
+  }
+  
+  const handleContinue = () => {
+    setCurrentStep("confirmation")
   }
 
   return (
@@ -414,7 +424,6 @@ export default function MedicalTriageKiosk() {
                   <li>Physicals/ Check-ups</li>
                   <li>Missed appointments</li>
                   <li>Pap Smears</li>
-                  <li>I have an appointment today</li>
                 </ul>
               )}
 
@@ -422,9 +431,10 @@ export default function MedicalTriageKiosk() {
               {reasonForVisit === "nurse" && (
                 <ul>
                   <li>Contaceptive services</li>
-                  <li>STI counselling</li>
+                  <li>STI counselling / rapid tests</li>
                   <li>Pregnancy Testing</li>
                   <li>Blood Pressure/Glucose/A1c/Weight/etc.</li>
+                  <li>Other rapid tests (covid, dengue, flu, etc.)</li>
                   <li>Dressings/Bandaging</li>
                 </ul>
               )}
@@ -432,29 +442,114 @@ export default function MedicalTriageKiosk() {
               {reasonForVisit === "urgent-care" && (
                 
                 <ol>
-                  <h3>Urgent Complaints Only</h3>
-                  <h3>Waiting time may be long</h3>
-                  <li>Get a number from the Information desk</li>
-                  <li>Present it to the Front Desk</li>
-                  <li>Choose a service code to present to billing. (confidential)</li>
+                  <h3>Urgent Cases Only</h3>
+                  <h3>Waiting time(s) may vary</h3>
+                  <li id="urgCareDisc">IF SITUATION IS NOT URGENT YOU WILL BE SENT BACK TO FRONT DESK</li>
+                  <li>Please Note: emergency cases will be prioritized</li>
+                  <li>Doctor seen will be based on availability</li>
                 </ol>
                 
               )}
 
               {reasonForVisit === "other" && (
+                <div className="space-y-6">
+                  <Button
+                    onClick={() => handleFinalSelect("prescription")/* change handle function */}
+                    className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
+                  >
+                    <div className="text-left">
+                      <div>Prescription re-write / renew</div>
+                      <div className="text-sm font-normal opacity-90">
+                        
+                      </div>
+                    </div>
+                  </Button>
                 
-                <dl>
-                  <dt>Medicaton refills</dt>
-                  <dt>Over the counter  meds</dt>
-                  <dd>no prescription needed</dd>
-                  <dt>Medical Supplies</dt>
-                  <dd> bandages, etc.</dd>
-                  <dt>Medication Advice</dt>
-                  <dt>NHF csrd advice</dt>
-                  <dt>Vacinations</dt>
-                  <dt>Tests:STI, Blood type, etc.</dt>
-                </dl>
+                  <Button
+                    onClick={() => handleFinalSelect("meds")/* change handle function */}
+                    className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
+                  >
+                    <div className="text-left">
+                      <div>Over the counter medications</div>
+                      <div className="text-sm font-normal opacity-90">
+                        no prescription needed
+                      </div>
+                    </div>
+                  </Button>
                 
+                  <Button
+                    onClick={() => handleFinalSelect("medSupplies")/* change handle function */}
+                    className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
+                  >
+                    <div className="text-left">
+                      <div>Medical Supplies</div>
+                      <div className="text-sm font-normal opacity-90">
+                        bandages, etc.
+                      </div>
+                    </div>
+                  </Button>
+                
+                  <Button
+                    onClick={() => handleFinalSelect("medAdvice")/* change handle function */}
+                    className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
+                  >
+                    <div className="text-left">
+                      <div>Medication Advice</div>
+                      <div className="text-sm font-normal opacity-90">
+                        
+                      </div>
+                    </div>
+                  </Button>
+                
+                  <Button
+                    onClick={() => handleFinalSelect("cardAdvice")/* change handle function */}
+                    className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
+                  >
+                    <div className="text-left">
+                      <div>NHF Card Advice</div>
+                      <div className="text-sm font-normal opacity-90">
+                        
+                      </div>
+                    </div>
+                  </Button>
+
+                  <Button
+                    onClick={() => handleFinalSelect("vaccine")/* change handle function */}
+                    className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
+                  >
+                    <div className="text-left">
+                      <div>Vaccinations</div>
+                      <div className="text-sm font-normal opacity-90">
+                        
+                      </div>
+                    </div>
+                  </Button>
+
+                  <Button
+                    onClick={() => handleFinalSelect("lab")/* change handle function */}
+                    className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
+                  >
+                    <div className="text-left">
+                      <div>Lab Tests</div>
+                      <div className="text-sm font-normal opacity-90">
+                        STI screens, executive profiles and others
+                      </div>
+                    </div>
+                  </Button>
+
+                  <Button
+                    onClick={() => handleFinalSelect("exemption")/* change handle function */}
+                    className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
+                  >
+                    <div className="text-left">
+                      <div>medical exemptions/ sick leave</div>
+                      <div className="text-sm font-normal opacity-90">
+                        
+                      </div>
+                    </div>
+                  </Button>
+                </div>
+              
               )}
 
               <div className="flex justify-start pt-8">
@@ -466,6 +561,17 @@ export default function MedicalTriageKiosk() {
                   <ArrowLeft className="h-5 w-5 mr-2" />
                   Back
                 </Button>
+
+                {reasonForVisit !== "other" && (
+                  <Button
+                    onClick={handleContinue}
+                    variant="outline"
+                    className="h-14 px-8 text-lg border-2 border-gray-300 hover:bg-gray-50 bg-transparent"
+                  >
+                    <ArrowRight className="h-5 w-5 mr-2" />
+                    Continue
+                  </Button>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -510,6 +616,7 @@ export default function MedicalTriageKiosk() {
                     {reasonForVisit === "appointment" && "Make an Appointment"}
                     {reasonForVisit === "medicine" && "Get Medicine"}
                     {reasonForVisit === "urgent-care" && "See a Doctor or Nurse"}
+                    {/*reasonForVisit === reasonForVisit && reasonForVisit*/}
                   </span>
                 </div>
               </div>
