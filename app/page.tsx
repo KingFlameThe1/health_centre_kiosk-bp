@@ -330,7 +330,7 @@ export default function MedicalTriageKiosk() {
                   <div className="text-left">
                     <div>See a nurse</div>
                     <div className="text-sm font-normal opacity-90">
-                      For prescriptions, refills, and pharmaceutical needs
+                      Contraceptives, STI counceling, Pregnancy and blood tests, Medical supplies
                     </div>
                   </div>
                 </Button>
@@ -444,7 +444,7 @@ export default function MedicalTriageKiosk() {
                 <ol>
                   <h3>Urgent Cases Only</h3>
                   <h3>Waiting time(s) may vary</h3>
-                  <li id="urgCareDisc">IF SITUATION IS NOT URGENT YOU WILL BE SENT BACK TO FRONT DESK</li>
+                  <li id="urgCareDisc">IF SITUATION IS NOT URGENT YOU WILL BE RE-ROUTED</li>
                   <li>Please Note: emergency cases will be prioritized</li>
                   <li>Doctor seen will be based on availability</li>
                 </ol>
@@ -614,8 +614,8 @@ export default function MedicalTriageKiosk() {
                   <span className="font-semibold text-gray-700">Reason for Visit:</span>{" "}
                   <span className="text-gray-900">
                     {reasonForVisit === "appointment" && "Make an Appointment"}
-                    {reasonForVisit === "medicine" && "Get Medicine"}
-                    {reasonForVisit === "urgent-care" && "See a Doctor or Nurse"}
+                    {reasonForVisit === "nurse" && "See a Nurse"}
+                    {reasonForVisit === "urgent-care" && "Urgent Care"}
                     {!["appointment", "medicine", "urgent-care"].includes(reasonForVisit) && reasonForVisit}
                   </span>
                 </div>
@@ -633,7 +633,7 @@ export default function MedicalTriageKiosk() {
                 <Button
                   onClick={() => {
                     // This would typically submit the form or proceed to next step
-                    alert("Information confirmed! Please proceed to the reception desk.")
+                    alert("Information confirmed! Please proceed to the area on the ticket.")
                     handleHome()
                   }}
                   className="h-14 px-8 bg-red-600 hover:bg-red-700 text-white text-lg font-semibold"
