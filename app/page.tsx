@@ -9,8 +9,13 @@ import { ArrowLeft, ArrowRight, Home, User, Users, Building, UserCheck } from "l
 
 type Affiliation = "student" | "staff" | "staff-dependent" | "other" | null
 type Step = "affiliation" | "information" | "triage" | "confirmation" | "welcome" | "direct" | "info"
-type DirectMsg = "font-desk" | "nurse" | "appointment" | "exemption" | null /*determines which message is displayed on "direct" screen*/
-//var directMsg = 0 
+type DirectMsg =
+  | "font-desk"
+  | "nurse"
+  | "appointment"
+  | "exemption"
+  | null /*determines which message is displayed on "direct" screen*/
+//var directMsg = 0
 
 interface UserInfo {
   firstName: string
@@ -18,8 +23,6 @@ interface UserInfo {
   idNumber: string
   dateOfBirth: string
 }
-
-
 
 export default function MedicalTriageKiosk() {
   //const [currentStep, setCurrentStep] = useState<Step>("affiliation")
@@ -115,26 +118,23 @@ export default function MedicalTriageKiosk() {
 
   const handleFinalSelect = (reason: string) => {
     setReasonForVisit(reason)
-    if(reason === "Medical Exemption"){
+    if (reason === "Medical Exemption") {
       setDirectMsg("exemption")
       setCurrentStep("direct")
-    }
-    else{
+    } else {
       setCurrentStep("confirmation")
     }
-    
   }
 
   const handleContinue = () => {
     setCurrentStep("confirmation")
   }
 
-  const exempConfirm = (resp : boolean) =>{
-    if (resp === true){
+  const exempConfirm = (resp: boolean) => {
+    if (resp === true) {
       setReasonForVisit("Urgent Care")
       setCurrentStep("confirmation")
-    }
-    else{
+    } else {
       //redirect to public health consultant????
     }
   }
@@ -313,71 +313,77 @@ export default function MedicalTriageKiosk() {
 
         {/* Reason for Visit (Triage) */}
         {currentStep === "triage" && (
-          <Card className="w-full">
+          <Card className="w-full max-w-5xl mx-auto">
             <CardHeader className="text-center pb-8">
-              <CardTitle className="text-3xl font-bold text-gray-900">What is the reason for your visit?</CardTitle>
-              {/*affiliation !== "other" && (
-                <p className="text-lg text-gray-600 mt-2">
-                  Welcome, {userInfo.firstName} {userInfo.lastName} ({getAffiliationLabel()})
-                </p>
-              )*/}
+              <CardTitle className="text-3xl font-bold text-gray-900 mb-4">What is your reason for visiting?</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-6">
-                <Button
-                  onClick={() => handleReasonSelect("appointment")}
-                  className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
-                >
-                  <div className="text-left">
-                    <div>Make an Appointment</div>
-                    <div className="text-sm font-normal opacity-90">
-                      For checkups, rescheduling, lab results, routine care
-                    </div>
+            <CardContent className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Make an Appointment */}
+                <div className="flex flex-col items-center space-y-4">
+                  <div className="w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center mb-2">
+                    <img src="/doctor-with-calendar-appointment-scheduling-medica.png" alt="Doctor with calendar" className="w-20 h-20" />
                   </div>
-                </Button>
+                  <Button
+                    onClick={() => handleReasonSelect("appointment")}
+                    className="w-full h-16 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold rounded-lg shadow-lg"
+                  >
+                    Make an Appointment
+                  </Button>
+                  <p className="text-gray-600 text-center text-sm">
+                    For check-ups, rescheduling, lab results, routine care
+                  </p>
+                </div>
 
-                <Button
-                  onClick={() => handleReasonSelect("nurse") /*change to match text */}
-                  className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
-                >
-                  <div className="text-left">
-                    <div>See a nurse</div>
-                    <div className="text-sm font-normal opacity-90">
-                      Contraceptives, STI counceling, Pregnancy and blood tests, Medical supplies
-                    </div>
+                {/* Nursing */}
+                <div className="flex flex-col items-center space-y-4">
+                  <div className="w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center mb-2">
+                    <img src="/medical-hand-care-nursing-services-health-check.png" alt="Nursing services" className="w-20 h-20" />
                   </div>
-                </Button>
+                  <Button
+                    onClick={() => handleReasonSelect("nurse")}
+                    className="w-full h-16 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold rounded-lg shadow-lg"
+                  >
+                    Nursing
+                  </Button>
+                  <p className="text-gray-600 text-center text-sm">for . . . .</p>
+                </div>
 
-                <Button
-                  onClick={() => handleReasonSelect("urgent-care")}
-                  className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
-                >
-                  <div className="text-left">
-                    <div>Urgent Care</div>
-                    <div className="text-sm font-normal opacity-90">
-                      For emergency, urgent care, or immediate medical attention
-                    </div>
+                {/* Urgent Care */}
+                <div className="flex flex-col items-center space-y-4">
+                  <div className="w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center mb-2">
+                    <img src="/running-person-with-heart-urgent-care-emergency-me.png" alt="Urgent care" className="w-20 h-20" />
                   </div>
-                </Button>
+                  <Button
+                    onClick={() => handleReasonSelect("urgent-care")}
+                    className="w-full h-16 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold rounded-lg shadow-lg"
+                  >
+                    Urgent Care
+                  </Button>
+                  <p className="text-gray-600 text-center text-sm">for . . . .</p>
+                </div>
 
-                <Button
-                  onClick={() => handleReasonSelect("other")}
-                  className="w-full h-20 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold flex items-center justify-start gap-6 px-8 rounded-lg shadow-lg"
-                >
-                  <div className="text-left">
-                    <div>Other Service</div>
-                    <div className="text-sm font-normal opacity-90">. . .</div>
+                {/* Other */}
+                <div className="flex flex-col items-center space-y-4">
+                  <div className="w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center mb-2">
+                    <img src="/medicine-bottle-with-syringe-pharmacy-medical-supp.png" alt="Other services" className="w-20 h-20" />
                   </div>
-                </Button>
+                  <Button
+                    onClick={() => handleReasonSelect("other")}
+                    className="w-full h-16 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold rounded-lg shadow-lg"
+                  >
+                    Other
+                  </Button>
+                  <p className="text-gray-600 text-center text-sm">for . . . .</p>
+                </div>
               </div>
 
               <div className="flex justify-start pt-8">
                 <Button
                   onClick={handleBack}
                   variant="outline"
-                  className="h-14 px-8 text-lg border-2 border-gray-300 hover:bg-gray-50 bg-transparent"
+                  className="h-14 px-8 text-lg border-2 border-gray-300 hover:bg-gray-50 bg-transparent rounded-lg"
                 >
-                  <ArrowLeft className="h-5 w-5 mr-2" />
                   Back
                 </Button>
               </div>
@@ -399,7 +405,9 @@ export default function MedicalTriageKiosk() {
                 <CardTitle className="text-3xl font-bold text-gray-900">Please go to the Nurse's Station</CardTitle>
               )}
               {directMsg === "exemption" && (
-                <CardTitle className="text-3xl font-bold text-gray-900">Have you seen any of our staff about his previously?</CardTitle>
+                <CardTitle className="text-3xl font-bold text-gray-900">
+                  Have you seen any of our staff about his previously?
+                </CardTitle>
               )}
             </CardHeader>
             <CardContent className="space-y-6">
@@ -417,7 +425,7 @@ export default function MedicalTriageKiosk() {
               )}
               {directMsg === "exemption" && (
                 <div className="FrntDskCnfrm">
-                  <Button onClick={() => exempConfirm(false) } className="confirmationBTN">
+                  <Button onClick={() => exempConfirm(false)} className="confirmationBTN">
                     No
                   </Button>
 
@@ -426,7 +434,6 @@ export default function MedicalTriageKiosk() {
                   </Button>
                 </div>
               )}
-              
             </CardContent>
           </Card>
         )}
@@ -470,7 +477,6 @@ export default function MedicalTriageKiosk() {
                     <li>Doctor seen will be based on availability</li>
                   </ol>
                 </div>
-                
               )}
 
               {reasonForVisit === "other" && (
