@@ -346,7 +346,7 @@ export default function MedicalTriageKiosk() {
                   >
                     Nursing
                   </Button>
-                  <p className="text-gray-600 text-center text-sm">for . . . .</p>
+                  <p className="text-gray-600 text-center text-sm">For contraceptives, STI counselling, pregnany and blood tests, medical suplies</p>
                 </div>
 
                 {/* Urgent Care */}
@@ -360,7 +360,7 @@ export default function MedicalTriageKiosk() {
                   >
                     Urgent Care
                   </Button>
-                  <p className="text-gray-600 text-center text-sm">for . . . .</p>
+                  <p className="text-gray-600 text-center text-sm">For Emergencies / Urgent care / Immediate medical attention</p>
                 </div>
 
                 {/* Other */}
@@ -374,7 +374,7 @@ export default function MedicalTriageKiosk() {
                   >
                     Other
                   </Button>
-                  <p className="text-gray-600 text-center text-sm">for . . . .</p>
+                  <p className="text-gray-600 text-center text-sm">tap to see options</p>
                 </div>
               </div>
 
