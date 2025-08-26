@@ -9,6 +9,8 @@ import { ArrowLeft, ArrowRight, Home, User, Users, Building, UserCheck } from "l
 
 type Affiliation = "student" | "staff" | "staff-dependent" | "other" | null
 type Step = "affiliation" | "information" | "triage" | "confirmation" | "welcome" | "direct" | "info"
+type DirectMsg = "font-desk" | "nurse" | "appointment" | "exemption" | null /*determines which message is displayed on "direct" screen*/
+//var directMsg = 0 
 
 interface UserInfo {
   firstName: string
@@ -17,12 +19,13 @@ interface UserInfo {
   dateOfBirth: string
 }
 
-var directMsg = 0 /*determines which message is displayed on "direct" screen*/
+
 
 export default function MedicalTriageKiosk() {
   //const [currentStep, setCurrentStep] = useState<Step>("affiliation")
   const [currentStep, setCurrentStep] = useState<Step>("welcome")
   const [affiliation, setAffiliation] = useState<Affiliation>(null)
+  const [directMsg, setDirectMsg] = useState<DirectMsg>(null)
   const [userInfo, setUserInfo] = useState<UserInfo>({
     firstName: "",
     lastName: "",
@@ -49,8 +52,8 @@ export default function MedicalTriageKiosk() {
   const seenFrntDsk = (resp: string) => {
     if (resp === "no") {
       /*sends user to page where they are direct on where to go */
+      setDirectMsg("font-desk")
       setCurrentStep("direct")
-      directMsg = 1
     } else {
       setCurrentStep("triage")
     }
@@ -91,6 +94,7 @@ export default function MedicalTriageKiosk() {
     setAffiliation(null)
     setUserInfo({ firstName: "", lastName: "", idNumber: "", dateOfBirth: "" })
     setReasonForVisit("")*/
+    setDirectMsg(null)
     setCurrentStep("welcome")
   }
 
@@ -111,11 +115,28 @@ export default function MedicalTriageKiosk() {
 
   const handleFinalSelect = (reason: string) => {
     setReasonForVisit(reason)
-    setCurrentStep("confirmation")
+    if(reason === "Medical Exemption"){
+      setDirectMsg("exemption")
+      setCurrentStep("direct")
+    }
+    else{
+      setCurrentStep("confirmation")
+    }
+    
   }
 
   const handleContinue = () => {
     setCurrentStep("confirmation")
+  }
+
+  const exempConfirm = (resp : boolean) =>{
+    if (resp === true){
+      setReasonForVisit("Urgent Care")
+      setCurrentStep("confirmation")
+    }
+    else{
+      //redirect to public health consultant????
+    }
   }
 
   return (
@@ -123,7 +144,7 @@ export default function MedicalTriageKiosk() {
       <div className="mx-auto max-w-4xl">
         {/* Header */}
         <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">University Health Center</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">Welcome to the University Health Center</h1>
           <p className="text-xl text-gray-600">Self-Service Medical Triage</p>
         </div>
 
@@ -368,30 +389,44 @@ export default function MedicalTriageKiosk() {
         {currentStep === "direct" && (
           <Card className="w-full">
             <CardHeader className="text-center pb-8">
-              {directMsg === 1 && (
+              {directMsg === "font-desk" && (
                 <CardTitle className="text-3xl font-bold text-gray-900">Please see Information Desk.</CardTitle>
               )}
-              {directMsg === 2 && (
+              {directMsg === "appointment" && (
                 <CardTitle className="text-3xl font-bold text-gray-900">Please go to Appointments Desk</CardTitle>
               )}
-              {directMsg === 3 && (
+              {directMsg === "nurse" && (
                 <CardTitle className="text-3xl font-bold text-gray-900">Please go to the Nurse's Station</CardTitle>
               )}
-              {directMsg === 3 && (
-                <CardTitle className="text-3xl font-bold text-gray-900">Please go to ________</CardTitle>
+              {directMsg === "exemption" && (
+                <CardTitle className="text-3xl font-bold text-gray-900">Have you seen any of our staff about his previously?</CardTitle>
               )}
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="flex justify-start pt-8">
-                <Button
-                  onClick={handleHome}
-                  variant="outline"
-                  className="h-14 px-8 text-lg border-2 border-gray-300 hover:bg-gray-50 bg-transparent"
-                >
-                  <ArrowLeft className="h-5 w-5 mr-2" />
-                  Home
-                </Button>
-              </div>
+              {directMsg !== "exemption" && (
+                <div className="flex justify-start pt-8">
+                  <Button
+                    onClick={handleHome}
+                    variant="outline"
+                    className="h-14 px-8 text-lg border-2 border-gray-300 hover:bg-gray-50 bg-transparent"
+                  >
+                    <ArrowLeft className="h-5 w-5 mr-2" />
+                    Home
+                  </Button>
+                </div>
+              )}
+              {directMsg === "exemption" && (
+                <div className="FrntDskCnfrm">
+                  <Button onClick={() => exempConfirm(false) } className="confirmationBTN">
+                    No
+                  </Button>
+
+                  <Button onClick={() => exempConfirm(true)} className="confirmationBTN">
+                    Yes
+                  </Button>
+                </div>
+              )}
+              
             </CardContent>
           </Card>
         )}
