@@ -9,12 +9,7 @@ import { ArrowLeft, ArrowRight, Home, User, Users, Building, UserCheck } from "l
 
 type Affiliation = "student" | "staff" | "staff-dependent" | "other" | null
 type Step = "affiliation" | "information" | "triage" | "confirmation" | "welcome" | "direct" | "info"
-type DirectMsg =
-  | "font-desk"
-  | "nurse"
-  | "appointment"
-  | "exemption"
-  | null /*determines which message is displayed on "direct" screen*/
+type DirectMsg = "font-desk"  | "nurse" | "appointment" | "exemption" | "public health" | null /*determines which message is displayed on "direct" screen*/
 //var directMsg = 0
 
 interface UserInfo {
@@ -136,6 +131,8 @@ export default function MedicalTriageKiosk() {
       setCurrentStep("confirmation")
     } else {
       //redirect to public health consultant????
+      setDirectMsg("public health")
+
     }
   }
 
@@ -322,7 +319,7 @@ export default function MedicalTriageKiosk() {
                 {/* Make an Appointment */}
                 <div className="flex flex-col items-center space-y-4">
                   <div className="w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center mb-2">
-                    <img src="/doctor-with-calendar-appointment-scheduling-medica.png" alt="Doctor with calendar" className="w-20 h-20" />
+                    <img src="/doctor-with-calendar.png" alt="Doctor with calendar" className="w-20 h-20" />
                   </div>
                   <Button
                     onClick={() => handleReasonSelect("appointment")}
@@ -338,7 +335,7 @@ export default function MedicalTriageKiosk() {
                 {/* Nursing */}
                 <div className="flex flex-col items-center space-y-4">
                   <div className="w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center mb-2">
-                    <img src="/medical-hand-care-nursing-services-health-check.png" alt="Nursing services" className="w-20 h-20" />
+                    <img src="/nursing-services.png" alt="Nursing services" className="w-20 h-20" />
                   </div>
                   <Button
                     onClick={() => handleReasonSelect("nurse")}
@@ -352,7 +349,7 @@ export default function MedicalTriageKiosk() {
                 {/* Urgent Care */}
                 <div className="flex flex-col items-center space-y-4">
                   <div className="w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center mb-2">
-                    <img src="/running-person-with-heart-urgent-care-emergency-me.png" alt="Urgent care" className="w-20 h-20" />
+                    <img src="/urgent-care.png" alt="Urgent care" className="w-20 h-20" />
                   </div>
                   <Button
                     onClick={() => handleReasonSelect("urgent-care")}
@@ -366,7 +363,7 @@ export default function MedicalTriageKiosk() {
                 {/* Other */}
                 <div className="flex flex-col items-center space-y-4">
                   <div className="w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center mb-2">
-                    <img src="/medicine-bottle-with-syringe-pharmacy-medical-supp.png" alt="Other services" className="w-20 h-20" />
+                    <img src="/medical-supplies.png" alt="Other services" className="w-20 h-20" />
                   </div>
                   <Button
                     onClick={() => handleReasonSelect("other")}
@@ -407,6 +404,11 @@ export default function MedicalTriageKiosk() {
               {directMsg === "exemption" && (
                 <CardTitle className="text-3xl font-bold text-gray-900">
                   Have you seen any of our staff about his previously?
+                </CardTitle>
+              )}
+              {directMsg === "public health" && (
+                <CardTitle className="text-3xl font-bold text-gray-900">
+                  Please se a public health consultant
                 </CardTitle>
               )}
             </CardHeader>
