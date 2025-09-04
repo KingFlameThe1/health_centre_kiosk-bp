@@ -9,7 +9,7 @@ import { ArrowLeft, ArrowRight, Home, User, Users, Building, UserCheck } from "l
 
 type Affiliation = "student" | "staff" | "staff-dependent" | "other" | null
 type Step = "affiliation" | "information" | "triage" | "confirmation" | "welcome" | "direct" | "info"
-type DirectMsg = "font-desk"  | "nurse" | "appointment" | "exemption" | "public health" | null /*determines which message is displayed on "direct" screen*/
+type DirectMsg = "font-desk"  | "nurse" | "appointment" | "pharmacy" | "exemption" | "public health" | "urgent-care" | "help" | "lab" | null /*determines which message is displayed on "direct" screen*/
 //var directMsg = 0
 
 interface UserInfo {
@@ -343,7 +343,7 @@ export default function MedicalTriageKiosk() {
                   >
                     Nursing
                   </Button>
-                  <p className="text-gray-600 text-center text-sm">For contraceptives, STI counselling, pregnany and blood tests, medical suplies</p>
+                  <p className="text-gray-600 text-center text-sm">For contraceptives, STI counselling, pregnancy & rapid tests, medical suplies</p>
                 </div>
 
                 {/* Urgent Care */}
@@ -393,23 +393,25 @@ export default function MedicalTriageKiosk() {
           <Card className="w-full">
             <CardHeader className="text-center pb-8">
               {directMsg === "font-desk" && (
-                <CardTitle className="text-3xl font-bold text-gray-900">Please see Information Desk.</CardTitle>
+                <CardTitle className="text-3xl font-bold text-gray-900">Please see front / Information Desk.</CardTitle>
               )}
               {directMsg === "appointment" && (
-                <CardTitle className="text-3xl font-bold text-gray-900">Please go to Appointments Desk</CardTitle>
+                <CardTitle className="text-3xl font-bold text-gray-900">Please head over to Appointments Desk</CardTitle>
               )}
               {directMsg === "nurse" && (
-                <CardTitle className="text-3xl font-bold text-gray-900">Please go to the Nurse's Station</CardTitle>
+                <CardTitle className="text-3xl font-bold text-gray-900">Please head over to the Nurse's Station</CardTitle>
+              )}
+              {directMsg === "pharmacy" && (
+                <CardTitle className="text-3xl font-bold text-gray-900">Please head over to our pharmacy</CardTitle>
               )}
               {directMsg === "exemption" && (
-                <CardTitle className="text-3xl font-bold text-gray-900">
-                  Have you seen any of our staff about his previously?
-                </CardTitle>
+                <CardTitle className="text-3xl font-bold text-gray-900">Have you seen any of our staff about his previously?</CardTitle>
               )}
               {directMsg === "public health" && (
-                <CardTitle className="text-3xl font-bold text-gray-900">
-                  Please se a public health consultant
-                </CardTitle>
+                <CardTitle className="text-3xl font-bold text-gray-900">Please see a public health consultant</CardTitle>
+              )}
+              {directMsg === "help"&& (
+                <CardTitle className="text-3xl font-bold text-gray-900">Please ask for assitance at the information desk</CardTitle>
               )}
             </CardHeader>
             <CardContent className="space-y-6">
@@ -641,8 +643,54 @@ export default function MedicalTriageKiosk() {
                 <Button
                   onClick={() => {
                     // This would typically submit the form or proceed to next step
-                    alert("Information confirmed! Please proceed to the area on the ticket.")
-                    handleHome()
+                    //alert("Information confirmed! Please proceed to the area on the ticket.")
+                    //handleHome()
+                    switch (reasonForVisit){
+                      case "appointment":
+                        setDirectMsg("appointment")
+                        setCurrentStep("direct")
+                        break
+                      case "nurse":
+                        setDirectMsg("nurse")
+                        setCurrentStep("direct")
+                        break
+                      case "urgent-care":
+                        setDirectMsg("urgent-care")
+                        setCurrentStep("direct")
+                        break
+                      case "Prescription Re-write":
+                        setDirectMsg("help")
+                        setCurrentStep("direct")
+                        break
+                      case "Over the Counter Medication":
+                        setDirectMsg("pharmacy")
+                        setCurrentStep("direct")
+                        break
+                      case "Medical Supplies":
+                        setDirectMsg("pharmacy")
+                        setCurrentStep("direct")
+                        break
+                      case "Medication Advice":
+                        setDirectMsg("pharmacy")
+                        setCurrentStep("direct")
+                        break
+                      case "NHF Card Advice":
+                        setDirectMsg("pharmacy")
+                        setCurrentStep("direct")
+                        break
+                      case "Vaccination":
+                        setDirectMsg("pharmacy")
+                        setCurrentStep("direct")
+                        break
+                      case "Lab Tests":
+                        setDirectMsg("lab")
+                        setCurrentStep("direct")
+                        break
+                      default:
+                        setDirectMsg("help")
+                        setCurrentStep("direct")
+                        break
+                    }
                   }}
                   className="h-14 px-8 bg-red-600 hover:bg-red-700 text-white text-lg font-semibold"
                 >
