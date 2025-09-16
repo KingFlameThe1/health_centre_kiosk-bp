@@ -1,0 +1,54 @@
+from flask import Flask, request, make_response, jsonify
+from flask_cors import CORS
+from escpos.printer import Network
+import traceback
+
+#pip install flask --> flask library
+#pip install escpos --> esc/pos library
+#might need pywin32 library
+
+app = Flask(__name__)
+
+HOST_IP = "192.168.0.7"
+# Update with your printer details
+PRINTER_IP = "192.168.0.26"   # replace with the printer's IP
+PRINTER_PORT = 9100           # default port printer listens on
+
+@app.route('/')
+def home():
+    return "home"
+
+@app.route('/print/network', methods=["POST"])
+def printNurseTicket():
+    data = request.json
+    facility = data['facility']
+    try:
+        p = Network(PRINTER_IP, PRINTER_PORT)
+        #this is what is printed - - - note: height & width should be <=8
+        p.set(align="center", bold=True,custom_size=True, height= 3, width=3)
+        p.text(f"Ticket:\n\n")
+
+        p.set(align="center", bold=False,custom_size=True, height=2, width=2)
+        p.text(f"{facility}\n\n\n")
+
+        p.set(align="left", bold=False, height=1, width=1)
+        p.text(f"Name:.........................................\n\n")
+        p.text(f"ID #:.........................................\n\n")
+        p.text(f"ICD Code:.....................................\n\n")
+        p.text(f"Date of follow-up:............................\n\n")
+        #p.text("." * 40 + "\n")
+
+        p.cut()
+
+        return jsonify({"status": "printed via network"}), 200
+    except Exception as e:
+        traceback.print_exc()  # logs full stack trace to console
+        return jsonify({
+            "error": str(e),
+            "type": type(e).__name__
+        }), 500
+
+if __name__ == '__main__':
+    #app.run(debug = True)
+    app.run(host=HOST_IP, debug=True) #remember to set host IP to the computer's current IP
+    CORS(app)

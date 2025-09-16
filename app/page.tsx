@@ -10,7 +10,11 @@ import { ArrowLeft, ArrowRight, Home, User, Users, Building, UserCheck } from "l
 type Affiliation = "student" | "staff" | "staff-dependent" | "other" | null
 type Step = "affiliation" | "information" | "triage" | "confirmation" | "welcome" | "direct" | "info"
 type DirectMsg = "font-desk"  | "nurse" | "appointment" | "pharmacy" | "exemption" | "public health" | "urgent-care" | "help" | "lab" | null /*determines which message is displayed on "direct" screen*/
-//var directMsg = 0
+
+const PRINTSERVER = "192.168.0.7" /* IP of flask script host ------ This host will handle printing */
+const nurseTicketCount = 0
+const pharmacyTicketCount = 0
+const otherTicketCount = 0
 
 interface UserInfo {
   firstName: string
@@ -128,14 +132,38 @@ export default function MedicalTriageKiosk() {
   const exempConfirm = (resp: boolean) => {
     if (resp === true) {
       setReasonForVisit("Urgent Care")
+      printReciept("Please sit in Waiting Area")
       setCurrentStep("confirmation")
     } else {
       //redirect to public health consultant????
       setDirectMsg("public health")
+      printReciept("Public Health Consult")
 
     }
   }
 
+  const printReciept = (destination : string) => {
+    var ticketNum = ""
+    if(destination === "nurse"){
+      ticketNum = "NRS"+nurseTicketCount
+    }
+    else if(destination === "pharmacy"){
+      ticketNum = "PH"+pharmacyTicketCount
+    }
+    else{
+      ticketNum = ""+otherTicketCount
+    }
+    fetch(`http://${PRINTSERVER}:5000/print/network`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ticket: ticketNum,
+                              facility: destination
+                              })
+    })
+  }
+
+
+  /*below is where the page is rendered */
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
       <div className="mx-auto max-w-4xl">
@@ -402,13 +430,13 @@ export default function MedicalTriageKiosk() {
                 <CardTitle className="text-3xl font-bold text-gray-900">Please head over to the Nurse's Station</CardTitle>
               )}
               {directMsg === "pharmacy" && (
-                <CardTitle className="text-3xl font-bold text-gray-900">Please head over to our pharmacy</CardTitle>
+                <CardTitle className="text-3xl font-bold text-gray-900">Please head over to our Pharmacy</CardTitle>
               )}
               {directMsg === "exemption" && (
                 <CardTitle className="text-3xl font-bold text-gray-900">Have you seen any of our staff about his previously?</CardTitle>
               )}
               {directMsg === "public health" && (
-                <CardTitle className="text-3xl font-bold text-gray-900">Please see a public health consultant</CardTitle>
+                <CardTitle className="text-3xl font-bold text-gray-900">Please see our public health consultant</CardTitle>
               )}
               {directMsg === "help"&& (
                 <CardTitle className="text-3xl font-bold text-gray-900">Please ask for assitance at the information desk</CardTitle>
@@ -626,7 +654,7 @@ export default function MedicalTriageKiosk() {
                     {reasonForVisit === "appointment" && "Make an Appointment"}
                     {reasonForVisit === "nurse" && "See a Nurse"}
                     {reasonForVisit === "urgent-care" && "Urgent Care"}
-                    {!["appointment", "medicine", "urgent-care"].includes(reasonForVisit) && reasonForVisit}
+                    {!["appointment", "nurse", "urgent-care"].includes(reasonForVisit) && reasonForVisit}
                   </span>
                 </div>
               </div>
@@ -642,9 +670,8 @@ export default function MedicalTriageKiosk() {
 
                 <Button
                   onClick={() => {
-                    // This would typically submit the form or proceed to next step
-                    //alert("Information confirmed! Please proceed to the area on the ticket.")
-                    //handleHome()
+                    // This section determins message displayed to direct patients and prints the reciept
+                    
                     switch (reasonForVisit){
                       case "appointment":
                         setDirectMsg("appointment")
@@ -652,38 +679,47 @@ export default function MedicalTriageKiosk() {
                         break
                       case "nurse":
                         setDirectMsg("nurse")
+                        printReciept("Nurse's Station")
                         setCurrentStep("direct")
                         break
                       case "urgent-care":
                         setDirectMsg("urgent-care")
+                        printReciept("Please sit in Waiting Area")
                         setCurrentStep("direct")
                         break
                       case "Prescription Re-write":
                         setDirectMsg("help")
+                        printReciept("Pharmacy")
                         setCurrentStep("direct")
                         break
                       case "Over the Counter Medication":
                         setDirectMsg("pharmacy")
+                        printReciept("Pharmacy")
                         setCurrentStep("direct")
                         break
                       case "Medical Supplies":
                         setDirectMsg("pharmacy")
+                        printReciept("Pharmacy")
                         setCurrentStep("direct")
                         break
                       case "Medication Advice":
                         setDirectMsg("pharmacy")
+                        printReciept("Pharmacy")
                         setCurrentStep("direct")
                         break
                       case "NHF Card Advice":
                         setDirectMsg("pharmacy")
+                        printReciept("Pharmacy")
                         setCurrentStep("direct")
                         break
                       case "Vaccination":
                         setDirectMsg("pharmacy")
+                        printReciept("Pharmacy")
                         setCurrentStep("direct")
                         break
                       case "Lab Tests":
                         setDirectMsg("lab")
+                        printReciept("The Lab")
                         setCurrentStep("direct")
                         break
                       default:
@@ -691,6 +727,7 @@ export default function MedicalTriageKiosk() {
                         setCurrentStep("direct")
                         break
                     }
+                    
                   }}
                   className="h-14 px-8 bg-red-600 hover:bg-red-700 text-white text-lg font-semibold"
                 >
