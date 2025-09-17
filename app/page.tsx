@@ -12,9 +12,9 @@ type Step = "affiliation" | "information" | "triage" | "confirmation" | "welcome
 type DirectMsg = "font-desk"  | "nurse" | "appointment" | "pharmacy" | "exemption" | "public health" | "urgent-care" | "help" | "lab" | null /*determines which message is displayed on "direct" screen*/
 
 const PRINTSERVER = "196.2.0.46" /* IP of flask script host ------ This host will handle printing */
-var nurseTicketCount = 0
-var pharmacyTicketCount = 0
-var otherTicketCount = 0
+var nurseTicketCount = 1
+var pharmacyTicketCount = 1
+var otherTicketCount = 1
 
 interface UserInfo {
   firstName: string
