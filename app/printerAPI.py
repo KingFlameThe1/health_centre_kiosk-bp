@@ -10,7 +10,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-HOST_IP = "196.2.0.46"       # Update with your IP
+HOST_IP = "192.168.56.1"       # Update with your IP
 PRINTER_IP = "196.2.0.15"   # replace with the printer's IP
 PRINTER_PORT = 9100           # default port printer listens on
 
@@ -23,6 +23,7 @@ def printNurseTicket():
     data = request.json
     facility = data['facility']
     ticket = data['ticket']
+    print(data)
     try:
         p = Network(PRINTER_IP, PRINTER_PORT)
         #this is what is printed - - - note: height & width should be <=8

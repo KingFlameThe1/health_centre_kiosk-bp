@@ -11,7 +11,7 @@ type Affiliation = "student" | "staff" | "staff-dependent" | "other" | null
 type Step = "affiliation" | "information" | "triage" | "confirmation" | "welcome" | "direct" | "info"
 type DirectMsg = "font-desk"  | "nurse" | "appointment" | "pharmacy" | "exemption" | "public health" | "urgent-care" | "help" | "lab" | null /*determines which message is displayed on "direct" screen*/
 
-const PRINTSERVER = "196.2.0.46" /* IP of flask script host ------ This host will handle printing */
+const PRINTSERVER = "192.168.56.1" /* IP of flask script host ------ This host will handle printing */
 var nurseTicketCount = 1
 var pharmacyTicketCount = 1
 var otherTicketCount = 1
@@ -146,6 +146,7 @@ export default function MedicalTriageKiosk() {
     var ticketNum = ""
     if(destination === "nurse"){
       ticketNum = "NRS"+nurseTicketCount
+      nurseTicketCount = nurseTicketCount + 1
     }
     else if(destination === "pharmacy"){
       ticketNum = "PH"+pharmacyTicketCount
@@ -153,10 +154,9 @@ export default function MedicalTriageKiosk() {
     }
     else if (destination !== "nurse" && destination !== "pharmacy"){
       ticketNum = ""+otherTicketCount
+      otherTicketCount = otherTicketCount + 1
     }
-    /*console.log(JSON.stringify({ ticket: ticketNum,
-                              facility: destination
-                              }))*/
+    //console.log(ticketNum)
     fetch(`http://${PRINTSERVER}:5000/print/network`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
