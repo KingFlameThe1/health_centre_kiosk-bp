@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -9,7 +9,17 @@ import { ArrowLeft, ArrowRight, Home, User, Users, Building, UserCheck } from "l
 
 type Affiliation = "student" | "staff" | "staff-dependent" | "other" | null
 type Step = "affiliation" | "information" | "triage" | "confirmation" | "welcome" | "direct" | "info"
-type DirectMsg = "font-desk"  | "nurse" | "appointment" | "pharmacy" | "exemption" | "public health" | "urgent-care" | "help" | "lab" | null /*determines which message is displayed on "direct" screen*/
+type DirectMsg =
+  | "font-desk"
+  | "nurse"
+  | "appointment"
+  | "pharmacy"
+  | "exemption"
+  | "public health"
+  | "urgent-care"
+  | "help"
+  | "lab"
+  | null /*determines which message is displayed on "direct" screen*/
 
 const PRINTSERVER = "192.168.29.10" /* IP of flask script host ------ This host will handle printing */
 var nurseTicketCount = 1
@@ -36,7 +46,21 @@ export default function MedicalTriageKiosk() {
   }) //not currently in use
   const [reasonForVisit, setReasonForVisit] = useState<string>("") //stores patient reson for visit
 
-  const handleAffiliationSelect = (selectedAffiliation: Affiliation) => { //not in use
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("/sw.js")
+        .then((registration) => {
+          console.log("SW registered: ", registration)
+        })
+        .catch((registrationError) => {
+          console.log("SW registration failed: ", registrationError)
+        })
+    }
+  }, [])
+
+  const handleAffiliationSelect = (selectedAffiliation: Affiliation) => {
+    //not in use
     setAffiliation(selectedAffiliation)
     if (selectedAffiliation === "other") {
       setCurrentStep("triage")
@@ -45,7 +69,8 @@ export default function MedicalTriageKiosk() {
     }
   }
 
-  const handleInformationSubmit = () => { //not in use
+  const handleInformationSubmit = () => {
+    //not in use
     if (userInfo.firstName && userInfo.lastName && userInfo.idNumber && userInfo.dateOfBirth) {
       setCurrentStep("triage")
     }
@@ -141,30 +166,25 @@ export default function MedicalTriageKiosk() {
     }
   }
 
-  const printReciept = (destination : string) => {
+  const printReciept = (destination: string) => {
     var ticketNum = ""
-    if(destination === "nurse"){
-      ticketNum = "NRS"+nurseTicketCount
+    if (destination === "nurse") {
+      ticketNum = "NRS" + nurseTicketCount
       nurseTicketCount = nurseTicketCount + 1
-    }
-    else if(destination === "pharmacy"){
-      ticketNum = "PH"+pharmacyTicketCount
+    } else if (destination === "pharmacy") {
+      ticketNum = "PH" + pharmacyTicketCount
       pharmacyTicketCount = pharmacyTicketCount + 1
-    }
-    else if (destination !== "nurse" && destination !== "pharmacy"){
-      ticketNum = ""+otherTicketCount
+    } else if (destination !== "nurse" && destination !== "pharmacy") {
+      ticketNum = "" + otherTicketCount
       otherTicketCount = otherTicketCount + 1
     }
     //console.log(ticketNum)
     fetch(`http://${PRINTSERVER}:5000/print/network`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ticket: ticketNum,
-                              facility: destination
-                              })
+      body: JSON.stringify({ ticket: ticketNum, facility: destination }),
     })
   }
-
 
   /*below is where the page is rendered */
   return (
@@ -374,7 +394,9 @@ export default function MedicalTriageKiosk() {
                   >
                     Nursing
                   </Button>
-                  <p className="text-gray-600 text-center text-sm">For contraceptives, STI counselling, pregnancy & rapid tests, medical suplies</p>
+                  <p className="text-gray-600 text-center text-sm">
+                    For contraceptives, STI counselling, pregnancy & rapid tests, medical suplies
+                  </p>
                 </div>
 
                 {/* Urgent Care */}
@@ -388,7 +410,9 @@ export default function MedicalTriageKiosk() {
                   >
                     Urgent Care
                   </Button>
-                  <p className="text-gray-600 text-center text-sm">For Emergencies / Urgent care / Immediate medical attention</p>
+                  <p className="text-gray-600 text-center text-sm">
+                    For Emergencies / Urgent care / Immediate medical attention
+                  </p>
                 </div>
 
                 {/* Other */}
@@ -427,13 +451,19 @@ export default function MedicalTriageKiosk() {
                 <CardTitle className="text-3xl font-bold text-gray-900">Please see front / Information Desk.</CardTitle>
               )}
               {directMsg === "appointment" && (
-                <CardTitle className="text-3xl font-bold text-gray-900">Please head over to Appointments Desk</CardTitle>
+                <CardTitle className="text-3xl font-bold text-gray-900">
+                  Please head over to Appointments Desk
+                </CardTitle>
               )}
               {directMsg === "nurse" && (
-                <CardTitle className="text-3xl font-bold text-gray-900">Please head over to the Nurse's Station</CardTitle>
+                <CardTitle className="text-3xl font-bold text-gray-900">
+                  Please head over to the Nurse's Station
+                </CardTitle>
               )}
               {directMsg === "urgent-care" && (
-                <CardTitle className="text-3xl font-bold text-gray-900">Please have a seat. We will be wth you shortly.</CardTitle>
+                <CardTitle className="text-3xl font-bold text-gray-900">
+                  Please have a seat. We will be wth you shortly.
+                </CardTitle>
               )}
               {directMsg === "pharmacy" && (
                 <CardTitle className="text-3xl font-bold text-gray-900">Please head over to our Pharmacy</CardTitle>
@@ -442,13 +472,17 @@ export default function MedicalTriageKiosk() {
                 <CardTitle className="text-3xl font-bold text-gray-900">Have you seen a doctor about this previously?</CardTitle>
               )}
               {directMsg === "public health" && (
-                <CardTitle className="text-3xl font-bold text-gray-900">Please see our public health consultant</CardTitle>
+                <CardTitle className="text-3xl font-bold text-gray-900">
+                  Please see our public health consultant
+                </CardTitle>
               )}
               {directMsg === "lab" && (
                 <CardTitle className="text-3xl font-bold text-gray-900">Head to the lab between 9 - 2 on Tuesday or Thursday</CardTitle>
               )}
-              {directMsg === "help"&& (
-                <CardTitle className="text-3xl font-bold text-gray-900">Please ask for assitance at the information desk</CardTitle>
+              {directMsg === "help" && (
+                <CardTitle className="text-3xl font-bold text-gray-900">
+                  Please ask for assitance at the information desk
+                </CardTitle>
               )}
             </CardHeader>
             <CardContent className="space-y-6">
@@ -681,7 +715,7 @@ export default function MedicalTriageKiosk() {
                 <Button
                   onClick={() => {
                     // This section determins message displayed to direct patients and prints the reciept
-                    switch (reasonForVisit){
+                    switch (reasonForVisit) {
                       case "appointment":
                         setDirectMsg("appointment")
                         setCurrentStep("direct")
@@ -736,7 +770,6 @@ export default function MedicalTriageKiosk() {
                         setCurrentStep("direct")
                         break
                     }
-                    
                   }}
                   className="h-14 px-8 bg-red-600 hover:bg-red-700 text-white text-lg font-semibold"
                 >
