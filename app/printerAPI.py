@@ -1,17 +1,19 @@
 from flask import Flask, request, make_response, jsonify
 from escpos.printer import Network
+import time
 import traceback
 from flask_cors import CORS
 
 #pip install flask --> flask library
 #pip install escpos --> esc/pos library
-#might need pywin32 library
+#pip install flask-cors --> needed to update Cross Origin Resource Sharing policiy
+#pip install pywin32 --> might need pywin32 library
 
 app = Flask(__name__)
 CORS(app)
 
-HOST_IP = "192.168.56.1"       # Update with your IP
-PRINTER_IP = "196.2.0.15"   # replace with the printer's IP
+HOST_IP = "192.168.29.10"       # Update with your IP
+PRINTER_IP = "192.168.29.9"   # replace with the printer's IP
 PRINTER_PORT = 9100           # default port printer listens on
 
 @app.route('/')
@@ -41,6 +43,8 @@ def printNurseTicket():
         #p.text("." * 40 + "\n")
 
         p.cut()
+        time.sleep(0.2)
+        p.close()
 
         return jsonify({"status": "printed via network"}), 200
     except Exception as e:

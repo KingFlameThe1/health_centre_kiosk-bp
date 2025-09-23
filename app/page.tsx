@@ -11,7 +11,7 @@ type Affiliation = "student" | "staff" | "staff-dependent" | "other" | null
 type Step = "affiliation" | "information" | "triage" | "confirmation" | "welcome" | "direct" | "info"
 type DirectMsg = "font-desk"  | "nurse" | "appointment" | "pharmacy" | "exemption" | "public health" | "urgent-care" | "help" | "lab" | null /*determines which message is displayed on "direct" screen*/
 
-const PRINTSERVER = "192.168.56.1" /* IP of flask script host ------ This host will handle printing */
+const PRINTSERVER = "192.168.29.10" /* IP of flask script host ------ This host will handle printing */
 var nurseTicketCount = 1
 var pharmacyTicketCount = 1
 var otherTicketCount = 1
@@ -131,14 +131,13 @@ export default function MedicalTriageKiosk() {
 
   const exempConfirm = (resp: boolean) => {
     if (resp === true) {
-      setReasonForVisit("Urgent Care")
-      printReciept("Please sit in Waiting Area")
-      setCurrentStep("confirmation")
-    } else {
-      //redirect to public health consultant????
       setDirectMsg("public health")
       printReciept("Public Health Consult")
-
+    } else {
+      //redirect to public health consultant????
+      setReasonForVisit("Urgent Care")
+      printReciept("Urgent Care")
+      setCurrentStep("confirmation")
     }
   }
 
@@ -440,13 +439,13 @@ export default function MedicalTriageKiosk() {
                 <CardTitle className="text-3xl font-bold text-gray-900">Please head over to our Pharmacy</CardTitle>
               )}
               {directMsg === "exemption" && (
-                <CardTitle className="text-3xl font-bold text-gray-900">Have you seen any of our staff about his previously?</CardTitle>
+                <CardTitle className="text-3xl font-bold text-gray-900">Have you seen a doctor about this previously?</CardTitle>
               )}
               {directMsg === "public health" && (
                 <CardTitle className="text-3xl font-bold text-gray-900">Please see our public health consultant</CardTitle>
               )}
               {directMsg === "lab" && (
-                <CardTitle className="text-3xl font-bold text-gray-900">Head to the lab between 9 - 5 on Tuesday or Thursday</CardTitle>
+                <CardTitle className="text-3xl font-bold text-gray-900">Head to the lab between 9 - 2 on Tuesday or Thursday</CardTitle>
               )}
               {directMsg === "help"&& (
                 <CardTitle className="text-3xl font-bold text-gray-900">Please ask for assitance at the information desk</CardTitle>
@@ -494,6 +493,7 @@ export default function MedicalTriageKiosk() {
                   <li>Physicals/ Check-ups</li>
                   <li>Missed appointments</li>
                   <li>Pap Smears</li>
+                  <li>Non-urgent complaints</li>
                 </ul>
               )}
 
@@ -698,7 +698,7 @@ export default function MedicalTriageKiosk() {
                         break
                       case "Prescription Re-write":
                         setDirectMsg("help")
-                        printReciept("pharmacy")
+                        //printReciept("pharmacy")
                         setCurrentStep("direct")
                         break
                       case "Over the Counter Medication":
