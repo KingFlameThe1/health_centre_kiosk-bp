@@ -12,7 +12,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-HOST_IP = "192.168.29.10"       # Update with your IP
+HOST_IP = "192.168.56.1"       # Update with your IP
 PRINTER_IP = "192.168.29.9"   # replace with the printer's IP
 PRINTER_PORT = 9100           # default port printer listens on
 

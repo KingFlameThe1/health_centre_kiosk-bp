@@ -21,7 +21,7 @@ type DirectMsg =
   | "lab"
   | null /*determines which message is displayed on "direct" screen*/
 
-const PRINTSERVER = "192.168.29.10" /* IP of flask script host ------ This host will handle printing */
+const PRINTSERVER = "192.168.56.1" /* IP of flask script host ------ This host will handle printing */
 var nurseTicketCount = 1
 var pharmacyTicketCount = 1
 var otherTicketCount = 1
@@ -669,8 +669,10 @@ export default function MedicalTriageKiosk() {
             <CardContent className="space-y-8">
               <div className="bg-gray-50 p-6 rounded-lg space-y-4">
                 <div className="text-lg">
+                  {/*
                   <span className="font-semibold text-gray-700">Affiliation:</span>{" "}
                   <span className="text-gray-900">{getAffiliationLabel()}</span>
+                  */}
                 </div>
 
                 {affiliation !== "other" && (
